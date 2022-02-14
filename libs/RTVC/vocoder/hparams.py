@@ -1,4 +1,4 @@
-from RTVC.synthesizer.hparams import hparams as _syn_hp
+from libs.RTVC.synthesizer.hparams import hparams as _syn_hp
 
 
 # Audio settings------------------------------------------------------------------------

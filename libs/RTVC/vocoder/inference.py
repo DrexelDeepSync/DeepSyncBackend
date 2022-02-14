@@ -1,5 +1,5 @@
-from RTVC.vocoder.models.fatchord_version import WaveRNN
-from RTVC.vocoder import hparams as hp
+from libs.RTVC.vocoder.models.fatchord_version import WaveRNN
+from libs.RTVC.vocoder import hparams as hp
 import torch
 
 

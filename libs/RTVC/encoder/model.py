@@ -1,5 +1,5 @@
-from RTVC.encoder.params_model import *
-from RTVC.encoder.params_data import *
+from libs.RTVC.encoder.params_model import *
+from libs.RTVC.encoder.params_data import *
 from scipy.interpolate import interp1d
 from sklearn.metrics import roc_curve
 from torch.nn.utils import clip_grad_norm_

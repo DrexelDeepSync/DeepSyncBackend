@@ -1,9 +1,9 @@
-from RTVC.encoder.params_model import model_embedding_size as speaker_embedding_size
-from RTVC.utils.argutils import print_args
-from RTVC.utils.modelutils import check_model_paths
-from RTVC.synthesizer.inference import Synthesizer
-from RTVC.encoder import inference as encoder
-from RTVC.vocoder import inference as vocoder
+from libs.RTVC.encoder.params_model import model_embedding_size as speaker_embedding_size
+from libs.RTVC.utils.argutils import print_args
+from libs.RTVC.utils.modelutils import check_model_paths
+from libs.RTVC.synthesizer.inference import Synthesizer
+from libs.RTVC.encoder import inference as encoder
+from libs.RTVC.vocoder import inference as vocoder
 from pathlib import Path
 import numpy as np
 import soundfile as sf
@@ -17,9 +17,9 @@ from audioread.exceptions import NoBackendError
 class TextToSpeech:
 
     def __init__(self):
-        self.encModelPath=Path("RTVC/encoder/saved_models/pretrained.pt".replace("\"", "").replace("\'", ""))
-        self.synModelPath=Path("RTVC/synthesizer/saved_models/pretrained/pretrained.pt".replace("\"", "").replace("\'", ""))
-        self.vocModelPath=Path("RTVC/vocoder/saved_models/pretrained/pretrained.pt".replace("\"", "").replace("\'", ""))
+        self.encModelPath=Path("libs/RTVC/encoder/saved_models/pretrained.pt".replace("\"", "").replace("\'", ""))
+        self.synModelPath=Path("libs/RTVC/synthesizer/saved_models/pretrained/pretrained.pt".replace("\"", "").replace("\'", ""))
+        self.vocModelPath=Path("libs/RTVC/vocoder/saved_models/pretrained/pretrained.pt".replace("\"", "").replace("\'", ""))
         self.cpu = False
         self.noSound = True
         self.noMp3Support = False
@@ -35,7 +35,7 @@ class TextToSpeech:
 
         if not self.noMp3Support:
             try:
-                librosa.load("RTVC/samples/1320_00000.mp3")
+                librosa.load("libs/RTVC/samples/1320_00000.mp3")
             except NoBackendError:
                 print("Librosa will be unable to open mp3 files if additional software is not installed.\n"
                     "Please install ffmpeg or add the '--no_mp3_support' option to proceed without support for mp3 files.")

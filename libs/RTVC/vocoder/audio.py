@@ -1,7 +1,7 @@
 import math
 import numpy as np
 import librosa
-import RTVC.vocoder.hparams as hp
+import libs.RTVC.vocoder.hparams as hp
 from scipy.signal import lfilter
 import soundfile as sf
 

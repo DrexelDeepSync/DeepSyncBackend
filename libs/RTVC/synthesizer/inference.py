@@ -1,10 +1,10 @@
 import torch
-from RTVC.synthesizer import audio
-from RTVC.synthesizer.hparams import hparams
-from RTVC.synthesizer.models.tacotron import Tacotron
-from RTVC.synthesizer.utils.symbols import symbols
-from RTVC.synthesizer.utils.text import text_to_sequence
-from RTVC.vocoder.display import simple_table
+from libs.RTVC.synthesizer import audio
+from libs.RTVC.synthesizer.hparams import hparams
+from libs.RTVC.synthesizer.models.tacotron import Tacotron
+from libs.RTVC.synthesizer.utils.symbols import symbols
+from libs.RTVC.synthesizer.utils.text import text_to_sequence
+from libs.RTVC.vocoder.display import simple_table
 from pathlib import Path
 from typing import Union, List
 import numpy as np

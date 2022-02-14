@@ -1,9 +1,9 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from RTVC.vocoder.distribution import sample_from_discretized_mix_logistic
-from RTVC.vocoder.display import *
-from RTVC.vocoder.audio import *
+from libs.RTVC.vocoder.distribution import sample_from_discretized_mix_logistic
+from libs.RTVC.vocoder.display import *
+from libs.RTVC.vocoder.audio import *
 
 
 class ResBlock(nn.Module):

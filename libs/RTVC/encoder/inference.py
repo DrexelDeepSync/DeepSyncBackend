@@ -1,8 +1,8 @@
-from RTVC.encoder.params_data import *
-from RTVC.encoder.model import SpeakerEncoder
-from RTVC.encoder.audio import preprocess_wav   # We want to expose this function from here
+from libs.RTVC.encoder.params_data import *
+from libs.RTVC.encoder.model import SpeakerEncoder
+from libs.RTVC.encoder.audio import preprocess_wav   # We want to expose this function from here
 from matplotlib import cm
-from RTVC.encoder import audio
+from libs.RTVC.encoder import audio
 from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
