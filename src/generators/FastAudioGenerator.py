@@ -1,6 +1,6 @@
 from email.mime import audio
 from typing import Text
-from src.ContentGenerator import ContentGenerator
+from src.generators.ContentGenerator import ContentGenerator
 from libs.RTVC.voice_synth import TextToSpeech
 
 class FastAudioGenerator(ContentGenerator):
