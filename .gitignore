@@ -129,3 +129,20 @@ dmypy.json
 .pyre/
 
 test_resources/
+
+*.pkl
+*.jpg
+*.mp4
+*.pyc
+__pycache__
+*.h5
+*.avi
+*.wav
+filelists/*.txt
+evaluation/test_filelists/lr*.txt
+*.pyc
+*.mkv
+*.gif
+*.webm
+*.mp3
+*.pth
