@@ -72,6 +72,37 @@ def generateFastAudio():
 
     return json.loads(rc.toJson())
 
+@app.route("/slowaudio/generate", methods=["POST"])
+def generateFastAudio():
+    from src.generators.SlowAudioGenerator import SlowAudioGenerator
+
+    rc = ReturnContent()
+
+    req_json = request.get_json()
+
+    if not "scriptPath" in req_json or not os.path.isfile(os.path.join("resources", req_json["scriptPath"])):
+        rc.code = RequestCode.BadScript
+        rc.message = "Missing script file"
+        return json.loads(rc.toJson())
+
+    script_path = req_json['scriptPath']
+
+    #if not "outputPath" in req_json:
+    #    rc.code = RequestCode.BadOutput
+    #    rc.message = "Missing output path"
+    #    return json.loads(rc.toJson())
+
+    outputFile = "audio" + str(getFileNum()) + ".wav"
+
+    output_path = os.path.join("resources", outputFile)
+
+    slow_gen = SlowAudioGenerator(script_path, output_path)
+    slow_gen.generateContent()
+
+    rc.message = outputFile
+
+    return json.loads(rc.toJson())
+
 @app.route("/audiovisual/generate", methods=["POST"])
 def generateAudioVisual():
     from src.generators.AudioVisualGenerator import AudioVisualGenerator
