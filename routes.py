@@ -73,7 +73,7 @@ def generateFastAudio():
     return json.loads(rc.toJson())
 
 @app.route("/slowaudio/generate", methods=["POST"])
-def generateFastAudio():
+def generateSlowAudio():
     from src.generators.SlowAudioGenerator import SlowAudioGenerator
 
     rc = ReturnContent()
