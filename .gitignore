@@ -129,6 +129,7 @@ dmypy.json
 .pyre/
 
 test_resources/
+resources/*
 
 *.pkl
 *.jpg
