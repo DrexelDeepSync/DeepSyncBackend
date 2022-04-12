@@ -87,7 +87,7 @@ class TextToSpeech:
             # Then we derive the embedding. There are many functions and parameters that the 
             # speaker encoder interfaces. These are mostly for in-depth research. You will typically
             # only use this function (with its default parameters):
-            embed = encoder.embed_utterance(preprocessed_wav)
+            embed = encoder.embed_utterance(preprocessed_wav, overlap=0.6)
             print("Created the embedding")
             
             # If seed is specified, reset torch seed and force synthesizer reload
@@ -117,7 +117,7 @@ class TextToSpeech:
 
             # Synthesizing the waveform is fairly straightforward. Remember that the longer the
             # spectrogram, the more time-efficient the vocoder.
-            generated_wav = vocoder.infer_waveform(spec)
+            generated_wav = vocoder.infer_waveform(spec, overlap=100)
             
             
             ## Post-generation
