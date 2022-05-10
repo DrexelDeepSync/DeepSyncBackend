@@ -42,6 +42,7 @@ def uploadFile():
 
     return json.loads(rc.toJson())
 
+""" 
 @app.route("/fastaudio/generate", methods=["POST"])
 def generateFastAudio():
     from src.generators.FastAudioGenerator import FastAudioGenerator
@@ -81,6 +82,7 @@ def generateFastAudio():
     rc.message = outputFile
 
     return json.loads(rc.toJson())
+"""
 
 @app.route("/slowaudio/generate", methods=["POST"])
 def generateSlowAudio():
