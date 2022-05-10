@@ -16,6 +16,7 @@ vocoder_tag = "parallel_wavegan/vctk_hifigan.v1"
 # vocoder_tag = "parallel_wavegan/libritts_multi_band_melgan.v2"
 # vocoder_tag = "parallel_wavegan/libritts_hifigan.v1"
 # vocoder_tag = "parallel_wavegan/libritts_style_melgan.v1"
+# vocoder_tag = None
 
 ESPNET_ROOT = "/home/ubuntu/espnet/egs2/vctk/tts1"
 
@@ -23,7 +24,7 @@ text2speech = Text2Speech.from_pretrained(
     model_file=(f"{ESPNET_ROOT}/exp/tts_train_xvector_tacotron2_raw_phn_tacotron_g2p_en_no_space/train.loss.ave_5best.pth"),
     train_config=(f"{ESPNET_ROOT}/exp/tts_train_xvector_tacotron2_raw_phn_tacotron_g2p_en_no_space/config.yaml"),
     vocoder_tag=vocoder_tag,
-    device="cpu",
+    device="cuda",
     # Only for Tacotron 2 & Transformer
     threshold=0.5,
     # Only for Tacotron 2
@@ -51,9 +52,9 @@ class SlowAudioGenerator(ContentGenerator):
         self._outputPath = outputPath
 
     def generateContent(self) -> None:
-        msg = open(self._scriptPath, "r").read()
+        msg = open(os.path.join("resources", self._scriptPath), "r").read()
         # synthesis
         with torch.no_grad():
             wav = text2speech(msg, spembs=spembs)["wav"]
 
-        torchaudio.save(self._outputPath, wav.cpu(), text2speech.fs)
+        torchaudio.save(self._outputPath, wav.cpu().unsqueeze(0), text2speech.fs)

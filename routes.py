@@ -10,12 +10,20 @@ import json
 app = create_app()
 
 def getFileNum():
-    return len([name for name in os.listdir('resources') if os.path.isfile(name)])
+    return len([name for name in os.listdir('resources')])
+
+@app.route("/resources/<path>")
+def serve_video(path):
+    return send_file(os.path.join("resources", path), mimetype = 'video/mp4')
+
 
 @app.route("/uploadfile", methods=["POST"])
 def uploadFile():
     rc = ReturnContent()
 
+    print(request.data)
+    print(request.form)
+    print(request.files)
     req_data = request.form
 
     if not "fileName" in req_data:
@@ -63,6 +71,8 @@ def generateFastAudio():
 
     outputFile = "audio" + str(getFileNum()) + ".wav"
 
+    audio_path = os.path.join("resources", audio_path)
+    script_path = os.path.join("resources", script_path)
     output_path = os.path.join("resources", outputFile)
 
     fast_gen = FastAudioGenerator(audio_path, script_path, output_path)
@@ -73,7 +83,7 @@ def generateFastAudio():
     return json.loads(rc.toJson())
 
 @app.route("/slowaudio/generate", methods=["POST"])
-def generateFastAudio():
+def generateSlowAudio():
     from src.generators.SlowAudioGenerator import SlowAudioGenerator
 
     rc = ReturnContent()
@@ -108,6 +118,7 @@ def generateAudioVisual():
     from src.generators.AudioVisualGenerator import AudioVisualGenerator
 
     req_json = request.get_json()
+    print(req_json)
 
     rc = ReturnContent()
 
@@ -139,7 +150,7 @@ def generateAudioVisual():
 
     rc.message = output_path
 
-    return send_file(output_path, mimetype = 'video/mp4')
+    return json.loads(rc.toJson())
 
 class ReturnContent():
     def __init__(self):
@@ -158,4 +169,4 @@ class RequestCode(str, enum.Enum):
     BadFileName: str = "406"
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)

@@ -9,4 +9,5 @@ class FastAudioGenerator(ContentGenerator):
 
     def generateContent(self) -> None:
         tts = TextToSpeech()
-        tts.convert_text_to_speech(self._scriptPath, self._audioPath, self._outputPath)
+        msg = open(self._scriptPath, "r").read()
+        tts.convert_text_to_speech(msg, self._audioPath, self._outputPath)
