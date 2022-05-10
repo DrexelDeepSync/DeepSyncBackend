@@ -2,7 +2,7 @@ import pytest, os
 from src.generators.SlowAudioGenerator import SlowAudioGenerator
 
 class TestSlowAudioGenerator:
-    scriptPath = "test_resources/test_image.jpg"
+    scriptPath = "test_script.txt"
     outputPath = "test_resources/test_output.wav"
 
     def test_constructor(self):
