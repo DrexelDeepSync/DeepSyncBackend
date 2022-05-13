@@ -54,7 +54,7 @@ def generate(msg, spk):
         os.remove("/tmp/generated.wav")
     except FileNotFoundError:
         pass
-    torchaudio.save("/tmp/generated.wav", wav.cpu(), text2speech.fs)
+    torchaudio.save("/tmp/generated.wav", wav.cpu().unsqueeze(0), text2speech.fs)
     seg = pydub.AudioSegment.from_file("/tmp/generated.wav", format="wav")
     os.remove("/tmp/generated.wav")
     return seg
@@ -87,7 +87,7 @@ class SlowAudioGenerator(ContentGenerator):
             print(sentence)
             start_time = time.time()
             for phrase in sentence:
-                gen_audio = generate.generate(phrase, self._speaker)
+                gen_audio = generate(phrase, self._speaker)
                 final += gen_audio
                 if phrase[-1] == ".":
                     final += pydub.AudioSegment.silent(duration=400, frame_rate=24000)
