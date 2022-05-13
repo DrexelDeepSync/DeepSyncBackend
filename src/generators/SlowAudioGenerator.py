@@ -30,7 +30,7 @@ text2speech = Text2Speech.from_pretrained(
     # Only for Tacotron 2
     minlenratio=0.0,
     maxlenratio=10.0,
-    use_att_constraint=False,
+    use_att_constraint=True,
     backward_window=1,
     forward_window=3,
     # Only for FastSpeech & FastSpeech2 & VITS
@@ -43,18 +43,54 @@ spembs = None
 xvector_ark = [p for p in glob.glob(f"{ESPNET_ROOT}/dump/**/spk_xvector.ark", recursive=True) if "tr" in p][0]
 xvectors = {k: v for k, v in kaldiio.load_ark(xvector_ark)}
 
-spk = 'p290'
-spembs = xvectors[spk]
+def generate(msg, spk):
+    spembs = xvectors[spk]
+    with torch.no_grad():
+        wav = text2speech(msg, spembs=spembs)["wav"]
+    try:
+        os.remove("/tmp/generated.wav")
+    except FileNotFoundError:
+        pass
+    torchaudio.save("/tmp/generated.wav", wav.cpu(), text2speech.fs)
+    seg = pydub.AudioSegment.from_file("/tmp/generated.wav", format="wav")
+    os.remove("/tmp/generated.wav")
+    return seg
+
 
 class SlowAudioGenerator(ContentGenerator):
     def __init__(self, scriptPath: str, outputPath: str):
         self._scriptPath = scriptPath
         self._outputPath = outputPath
+        self._speaker = 'p291'
 
     def generateContent(self) -> None:
         msg = open(os.path.join("resources", self._scriptPath), "r").read()
-        # synthesis
-        with torch.no_grad():
-            wav = text2speech(msg, spembs=spembs)["wav"]
 
-        torchaudio.save(self._outputPath, wav.cpu().unsqueeze(0), text2speech.fs)
+        all_sentences = []
+
+        for sentence in msg.split("."):
+            new_sentence = sentence.strip()
+            if len(new_sentence) == 0:
+                continue
+            new_sentence += "."
+
+            phrases = re.split("[,;]", new_sentence)
+
+            all_sentences.append([phrase.strip() for phrase in phrases])
+
+        final = pydub.AudioSegment.empty()
+
+        for sentence in all_sentences:
+            print(sentence)
+            start_time = time.time()
+            for phrase in sentence:
+                gen_audio = generate.generate(phrase, self._speaker)
+                final += gen_audio
+                if phrase[-1] == ".":
+                    final += pydub.AudioSegment.silent(duration=400, frame_rate=24000)
+                else:
+                    final += pydub.AudioSegment.silent(duration=200, frame_rate=24000)
+            end_time = time.time()
+            print(end_time - start_time)
+
+        final.export(self._outputPath, format="wav")
