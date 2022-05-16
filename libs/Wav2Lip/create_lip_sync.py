@@ -44,7 +44,8 @@ class LipSyncer:
         self.device = 'cpu'
         self.mel_step_size = 16
 
-    def start_generation(self, facePath, audioPath, outputPath):
+    def start_generation(self, facePath, audioPath, outputPath, resize=1):
+        self.resizeFactor = resize
         full_frames = []
 
         if os.path.isfile(facePath) and facePath.split('.')[1] in ['jpg', 'png', 'jpeg']:
