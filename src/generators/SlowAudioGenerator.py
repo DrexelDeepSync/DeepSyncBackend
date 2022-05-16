@@ -64,10 +64,11 @@ class SlowAudioGenerator(ContentGenerator):
     def __init__(self, scriptPath: str, outputPath: str):
         self._scriptPath = scriptPath
         self._outputPath = outputPath
-        self._speaker = 'p291'
+        self._speaker = 'p378'
 
     def generateContent(self) -> None:
         msg = open(os.path.join("resources", self._scriptPath), "r").read()
+        msg = msg.replace("\n", ".")
 
         all_sentences = []
 
